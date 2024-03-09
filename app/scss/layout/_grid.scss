@@ -1,0 +1,47 @@
+@use "../util" as u;
+
+// Responsive Grid Layout
+// Responsive Widths
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  gap: u.rem(20);
+
+  // max-width: 1100px;
+  width: min(100% - 40px,1000px); // ---> chooses min from both values, acts same as 'max-width'
+
+  // margin: 0 auto; ---> this is not ideal
+  margin-inline: auto; // ---> define margin 'left' and 'right' only
+
+  // @media (min-width: 900px){
+  //   grid-template-columns: 2fr 1fr;
+  //   grid-template-rows: auto;
+  // }
+
+  @include u.breakpoint-up(large) {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+  }
+
+  &__main,
+  &__sidebar {
+    padding: u.rem(20);
+  }
+
+  &__main {
+    background-color: hsl(228, 96%, 22%);
+  }
+
+  &__sidebar {
+    background-color: hsl(302, 94%, 19%);
+  }
+
+  @include u.breakpoint-down(small) {
+    &__main,
+    &__sidebar {
+      text-align: center;
+    }
+  }
+}
