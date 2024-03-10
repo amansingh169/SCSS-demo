@@ -1,5 +1,11 @@
 @use "../util" as u;
 
+// Placeholder demonstration
+%placeholder {
+  // Set of css rules goes here
+  padding: u.rem(20);
+}
+
 // Responsive Grid Layout
 // Responsive Widths
 
@@ -10,7 +16,10 @@
   gap: u.rem(20);
 
   // max-width: 1100px;
-  width: min(100% - 40px,1000px); // ---> chooses min from both values, acts same as 'max-width'
+  width: min(
+    100% - u.rem(40),
+    u.rem(1000)
+  ); // ---> chooses min from both values, acts same as 'max-width'
 
   // margin: 0 auto; ---> this is not ideal
   margin-inline: auto; // ---> define margin 'left' and 'right' only
@@ -25,23 +34,60 @@
     grid-template-rows: auto;
   }
 
-  &__main,
-  &__sidebar {
-    padding: u.rem(20);
-  }
-
-  &__main {
-    background-color: hsl(228, 96%, 22%);
-  }
-
-  &__sidebar {
-    background-color: hsl(302, 94%, 19%);
-  }
-
   @include u.breakpoint-down(small) {
     &__main,
     &__sidebar {
       text-align: center;
     }
+  }
+
+  &__main,
+  &__sidebar {
+    @extend %placeholder; // ---> using or extending the placeholder
+  }
+
+  &__main {
+    background-color: hsl(51, 100%, 50%);
+    .grid__widget {
+      height: 100%;
+    }
+  }
+
+  &__sidebar {
+    background-color: hsl(51, 100%, 50%);
+  }
+
+  &__widget {
+    background-color: hsl(302, 94%, 19%);
+    padding: u.rem(16);
+
+    // using extend at-rule to make different versions of a class
+
+    // &--skyblue, &--green{
+    //   @extend .grid__widget; // ---> Adds the css rules of 'grid__widgets to these classes'
+    // }
+    // &--skyblue{
+    //   background-color: hsl(197, 71%, 73%);
+    //   color: hsl(180, 100%, 13%);
+    // }
+    // &--green{
+    //   background-color: hsl(120, 100%, 16%);
+    // }
+
+    // Instead use this method ('helper classes' ot 'utility classes')
+
+    &.skyblue {
+      background-color: hsl(197, 71%, 73%);
+      color: hsl(180, 100%, 13%);
+    }
+    &.green {
+      background-color: hsl(120, 100%, 16%);
+    }
+    &.dark-blue {
+      background-color: hsl(216, 100%, 18%);
+    }
+
+    // ^--- now both the helper classes are individual classes
+    // In order to use these helper classes anywhere, we would have to define these in the '_colors.scss' in the 'globals' folder, to limit the scope ane useability we define it here
   }
 }
